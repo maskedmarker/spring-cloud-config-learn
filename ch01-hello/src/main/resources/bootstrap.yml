@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      uri: http://localhost:8888  # Config Server地址
+      profile: dev                 # 环境配置
+      label: main                  # Git分支
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info  # 暴露refresh端点用于动态刷新配置

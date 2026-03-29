@@ -1,0 +1,22 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://E:/git-repo/cjh-repo/config-repo  # 本地git仓库，也可以使用远程git仓库
+          # uri: https://github.com/your-username/config-repo.git
+          # username: your-username  # 如果仓库是私有的
+          # password: your-password
+          default-label: main
+          search-paths: '{application}'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,bus-refresh
