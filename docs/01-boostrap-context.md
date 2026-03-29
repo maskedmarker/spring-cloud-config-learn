@@ -234,8 +234,7 @@ spring-cloud-context通过PropertySourceBootstrapConfiguration引入了一个新
 
 PropertySourceLocator: Strategy for locating (possibly remote) property sources for the Environment. 
 
-
-spring-cloud-config或者eureka的client端都是通过实现接口PropertySourceLocator来从远程配置中心拉取配置.
+在启动类SpringApplication的启动阶段,为application-context已经创建了空的context(还未加载beanDefinition),此时PropertySourceBootstrapConfiguration作为ApplicationContextInitializer为env添加远程配置.
 ```
 
 
@@ -271,14 +270,3 @@ org.springframework.cloud.util.random.CachedRandomPropertySourceAutoConfiguratio
 ```
 
 
-```text
-spring-cloud-config-client依赖的spring-factories文件中的配置
-
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.cloud.config.client.ConfigClientAutoConfiguration
-# Bootstrap components
-org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-org.springframework.cloud.config.client.ConfigServiceBootstrapConfiguration,\
-org.springframework.cloud.config.client.DiscoveryClientConfigServiceBootstrapConfiguration
-```
