@@ -26,7 +26,7 @@ org.springframework.cloud.bootstrap.BootstrapApplicationListener
 BootstrapApplicationListener首先是被注册到application-context.
 
 ```text
-public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {                                                     // 这是application-context的environment准备就绪时发出的事件
+public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {                                                     // 这是在启动类装配application-context的environment准备就绪时发出的事件
     ConfigurableEnvironment environment = event.getEnvironment();                                                               // 这是application-context的environment
     if (!environment.getProperty("spring.cloud.bootstrap.enabled", Boolean.class, true)) {
         return;
@@ -36,6 +36,7 @@ public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {     
     // bootstrap-context也是用的SpringApplicationBuilder来构建context的,所以也会受到spring-cloud-context的spring.factories影响,
     // 即bootstrap-context的environment准备就绪时发出的事件也会被BootstrapApplicationListener接收到.
     // BootstrapApplicationListener只处理application-context的事件
+    // bootstrap-context在装配阶段中,主动往env中添加了名为bootstrap的PropertySource,启动完成后,又从env中移除了,bootstrap.yml文件对应的是名为applicationConfig: [classpath:/bootstrap.yml]的OriginTrackedMapPropertySource
     if (environment.getPropertySources().contains(BOOTSTRAP_PROPERTY_SOURCE_NAME)) {
         return;
     }
